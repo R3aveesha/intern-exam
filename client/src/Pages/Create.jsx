@@ -113,8 +113,9 @@ function Create() {
                                     onClick={() => handleStarClick(star)}
                                     style={{
                                         fontSize: '2rem',
-                                        color: star <= Rating ? '#FFD700' : '#ccc',
+                                        color: star <= Rating ? '#FFD700' : '#fff',
                                         cursor: 'pointer',
+                
                                     }}
                                 >
                                     ★

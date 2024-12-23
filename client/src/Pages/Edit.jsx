@@ -18,6 +18,7 @@ function Edit() {
         axios
             .get(`http://localhost:5555/api/bookreviews/${id}`)
             .then((response) => {
+                
                 setTitle(response.data.Book_Title);
                 setAuthor(response.data.Author);
                 setRating(response.data.Rating);
@@ -66,7 +67,7 @@ function Edit() {
                     style={{
                         fontSize: '2rem',
                         cursor: 'pointer',
-                        color: i <= Rating ? '#FFD700' : '#ccc', 
+                        color: i <= Rating ? '#FFD700' : '#ffff', 
                     }}
                 >
                     ★
