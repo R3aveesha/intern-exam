@@ -32,7 +32,7 @@ function Edit() {
 
     // Handle review update
     const handleSaveReview = (e) => {
-        e.preventDefault(); // Prevent form submission reload
+        e.preventDefault(); 
         const data = {
             Book_Title,
             Author,
@@ -43,7 +43,7 @@ function Edit() {
 
         setLoading(true);
         axios
-            .put(`http://localhost:5555/api/bookreviews/${id}`, data) // Use PUT for updating
+            .put(`http://localhost:5555/api/bookreviews/${id}`, data) 
             .then(() => {
                 setLoading(false);
                 navigate('/home');
@@ -62,11 +62,11 @@ function Edit() {
             stars.push(
                 <span
                     key={i}
-                    onClick={() => setRating(i)} // Set rating when a star is clicked
+                    onClick={() => setRating(i)} 
                     style={{
                         fontSize: '2rem',
                         cursor: 'pointer',
-                        color: i <= Rating ? '#FFD700' : '#ccc', // Highlight stars up to the selected rating
+                        color: i <= Rating ? '#FFD700' : '#ccc', 
                     }}
                 >
                     ★
@@ -77,9 +77,9 @@ function Edit() {
     };
 
     return (
-        <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+        <div style={{ width: '200%', maxWidth: '600px', margin: '0 auto', padding: '20px',marginLeft:'50vh' }}>
             <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Edit Review</h2>
-            <form onSubmit={handleSaveReview}>
+            <form onSubmit={handleSaveReview} style={{padding:'60px',backgroundColor:"#cad4d9",borderRadius:'10px'}}>
                 <div style={{ marginBottom: '15px' }}>
                     <label htmlFor="title" style={{ display: 'block', marginBottom: '5px' }}>Book Title:</label>
                     <input
@@ -117,7 +117,7 @@ function Edit() {
                 <div style={{ marginBottom: '15px' }}>
                     <label htmlFor="rating" style={{ display: 'block', marginBottom: '5px' }}>Rating:</label>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                        {renderStars()} {/* Render star rating component */}
+                        {renderStars()}
                     </div>
                 </div>
                 <div style={{ marginBottom: '15px' }}>

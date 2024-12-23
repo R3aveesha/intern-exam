@@ -56,7 +56,7 @@ function Create() {
                     textAlign: 'center',
                     marginBottom: '20px',
                 }}>Create Review</h2>
-                <form onSubmit={handleSaveReview}>
+                <form onSubmit={handleSaveReview} style={{backgroundColor:"#cad4d9",padding:'40px',borderRadius:"20px"}}>
                     <div style={{ marginBottom: '15px' }}>
                         <label htmlFor="title" style={{
                             display: 'block',
