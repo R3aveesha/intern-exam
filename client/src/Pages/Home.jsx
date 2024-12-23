@@ -25,6 +25,8 @@ function Home() {
         width: '100%',
         borderCollapse: 'collapse',
         marginTop: '20px',
+        
+        
     };
 
     const thTdStyle = {
@@ -50,8 +52,10 @@ function Home() {
     };
 
     return (
-        <div style={{ width: '100%', margin: '0 auto', padding: '20px' }}>
-            <h3 style={{ fontSize: '2rem', textAlign: 'center' }}>Home</h3>
+        
+        <div style={{width:'200%',height:'100vh',marginLeft:'20px',backgroundColor:''}}>
+        <div style={{}}>
+            <h3 style={{ fontSize: '2rem', textAlign: 'center' }}>ALL REVIEWS</h3>
             <Link to='/reviews/create' style={addReviewLinkStyle}>ADD Review</Link>
 
             <table style={tableStyle}>
@@ -89,43 +93,10 @@ function Home() {
                 </tbody>
             </table>
 
-            <style>
-                {`
-                    @media (max-width: 768px) {
-                        h3 {
-                            font-size: 1.5rem;
-                        }
-                        table {
-                            font-size: 0.9rem;
-                        }
-                        th, td {
-                            padding: 8px;
-                        }
-                        .add-review-link {
-                            font-size: 1rem;
-                        }
-                        td {
-                            max-width: 150px;
-                        }
-                    }
-
-                    @media (max-width: 480px) {
-                        table {
-                            font-size: 0.8rem;
-                        }
-                        th, td {
-                            padding: 6px;
-                        }
-                        .add-review-link {
-                            font-size: 0.9rem;
-                        }
-                        td {
-                            max-width: 120px;
-                        }
-                    }
-                `}
-            </style>
+           
         </div>
+        </div>
+       
     );
 }
 
