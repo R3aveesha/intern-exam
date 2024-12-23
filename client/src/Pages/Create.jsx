@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Create() {
     const [Book_Title, setTitle] = useState('');
     const [Author, setAuthor] = useState('');
-    const [Rating, setRating] = useState('');
+    const [Rating, setRating] = useState(0); // Default rating is 0
     const [Review_Text, setReview] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -32,6 +32,10 @@ function Create() {
                 alert('An error occurred while saving the review');
                 console.log(error);
             });
+    };
+
+    const handleStarClick = (starValue) => {
+        setRating(starValue);
     };
 
     return (
@@ -73,23 +77,23 @@ function Create() {
                     />
                 </div>
                 <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="rating" style={{ display: 'block', marginBottom: '5px' }}>Rating (1-5):</label>
-                    <input
-                        type="number"
-                        id="rating"
-                        value={Rating}
-                        onChange={(e) => setRating(e.target.value)}
-                        min="1"
-                        max="5"
-                        style={{
-                            width: '100%',
-                            padding: '10px',
-                            fontSize: '1rem',
-                            borderRadius: '5px',
-                            border: '1px solid #ccc',
-                        }}
-                        required
-                    />
+                    <label style={{ display: 'block', marginBottom: '5px' }}>Rating:</label>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <span
+                                key={star}
+                                onClick={() => handleStarClick(star)}
+                                style={{
+                                    fontSize: '2rem',
+                                    color: star <= Rating ? '#FFD700' : '#ccc', // Highlight selected stars
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                ★
+                            </span>
+                        ))}
+                    </div>
+                    <p style={{ textAlign: 'center', marginTop: '5px', fontSize: '1rem' }}>Rating: {Rating}</p>
                 </div>
                 <div style={{ marginBottom: '15px' }}>
                     <label htmlFor="review" style={{ display: 'block', marginBottom: '5px' }}>Review Text:</label>
@@ -112,7 +116,6 @@ function Create() {
                 <button
                     type="submit"
                     disabled={loading}
-                    onClick={handleSaveReview}
                     style={{
                         width: '100%',
                         padding: '10px',
@@ -127,8 +130,6 @@ function Create() {
                     {loading ? 'Saving...' : 'Save Review'}
                 </button>
             </form>
-
-
         </div>
     );
 }

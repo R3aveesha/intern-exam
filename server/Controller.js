@@ -94,7 +94,7 @@ router.put('/:id',async(request,response)=>{
 router.delete('/:id',async(request,response)=>{
 
     try{
-        const {id} = use.params
+        const {id} = request.params
         const result = await BookReview.findByIdAndDelete(id);
 
         if(!result){

@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function Edit() {
     const [Book_Title, setTitle] = useState('');
     const [Author, setAuthor] = useState('');
-    const [Rating, setRating] = useState('');
+    const [Rating, setRating] = useState(0); // Default rating set to 0
     const [Review_Text, setReview] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const { id } = useParams(); // Get the review ID from the URL
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        setLoading(true)
-        axios.get(`http://localhost:5555/api/bookreviews/${id}`)
-        .then((response)=>{
-            setAuthor(response.data.Author)
-            setTitle(response.data.Book_Title)
-            setRating(response.data.Review_Text)
-            setReview(response.data.setRating)
-        })
-        .catch((error)=>{
-            console.log(error)
-        })
-    },[])
+    // Fetch review data to edit
+    useEffect(() => {
+        setLoading(true);
+        axios
+            .get(`http://localhost:5555/api/bookreviews/${id}`)
+            .then((response) => {
+                setTitle(response.data.Book_Title);
+                setAuthor(response.data.Author);
+                setRating(response.data.Rating);
+                setReview(response.data.Review_Text);
+                setLoading(false);
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.error('Error fetching review:', error);
+            });
+    }, [id]);
 
+    // Handle review update
     const handleSaveReview = (e) => {
         e.preventDefault(); // Prevent form submission reload
         const data = {
@@ -36,16 +42,38 @@ function Edit() {
         };
 
         setLoading(true);
-        axios.post('http://localhost:5555/api/bookreviews', data)
+        axios
+            .put(`http://localhost:5555/api/bookreviews/${id}`, data) // Use PUT for updating
             .then(() => {
                 setLoading(false);
                 navigate('/home');
             })
             .catch((error) => {
                 setLoading(false);
-                alert('An error occurred while saving the review');
-                console.log(error);
+                alert('An error occurred while updating the review');
+                console.error(error);
             });
+    };
+
+    // Render star ratings
+    const renderStars = () => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(
+                <span
+                    key={i}
+                    onClick={() => setRating(i)} // Set rating when a star is clicked
+                    style={{
+                        fontSize: '2rem',
+                        cursor: 'pointer',
+                        color: i <= Rating ? '#FFD700' : '#ccc', // Highlight stars up to the selected rating
+                    }}
+                >
+                    ★
+                </span>
+            );
+        }
+        return stars;
     };
 
     return (
@@ -87,23 +115,10 @@ function Edit() {
                     />
                 </div>
                 <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="rating" style={{ display: 'block', marginBottom: '5px' }}>Rating (1-5):</label>
-                    <input
-                        type="number"
-                        id="rating"
-                        value={Rating}
-                        onChange={(e) => setRating(e.target.value)}
-                        min="1"
-                        max="5"
-                        style={{
-                            width: '100%',
-                            padding: '10px',
-                            fontSize: '1rem',
-                            borderRadius: '5px',
-                            border: '1px solid #ccc',
-                        }}
-                        required
-                    />
+                    <label htmlFor="rating" style={{ display: 'block', marginBottom: '5px' }}>Rating:</label>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                        {renderStars()} {/* Render star rating component */}
+                    </div>
                 </div>
                 <div style={{ marginBottom: '15px' }}>
                     <label htmlFor="review" style={{ display: 'block', marginBottom: '5px' }}>Review Text:</label>
@@ -126,7 +141,6 @@ function Edit() {
                 <button
                     type="submit"
                     disabled={loading}
-                    onClick={handleSaveReview}
                     style={{
                         width: '100%',
                         padding: '10px',
@@ -138,11 +152,9 @@ function Edit() {
                         cursor: loading ? 'not-allowed' : 'pointer',
                     }}
                 >
-                    {loading ? 'Saving...' : 'Save Review'}
+                    {loading ? 'Saving...' : 'Update Review'}
                 </button>
             </form>
-
-
         </div>
     );
 }
